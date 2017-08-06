@@ -16,6 +16,7 @@ public class FacebookLoginDemoController extends WebSecurityConfigurerAdapter {
     public String myDemoPage(OAuth2Authentication authentication, Model model) {
         model.addAttribute("message", "Hello from MVC controller");
         model.addAttribute("userDetails", authentication.getUserAuthentication().getDetails());
+        model.addAttribute("oauth2Details", authentication.getDetails());
         model.addAttribute("isAuthenticated", authentication.isAuthenticated());
         return "myDemoPage";
     }
