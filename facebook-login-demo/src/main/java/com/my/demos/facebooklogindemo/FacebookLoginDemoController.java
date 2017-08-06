@@ -27,7 +27,11 @@ public class FacebookLoginDemoController extends WebSecurityConfigurerAdapter {
                 .antMatcher("/**").authorizeRequests()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
-                .and().logout();
+                .and().logout()
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .logoutSuccessUrl("/").permitAll()
+                .and().csrf().disable();
 
     }
 
