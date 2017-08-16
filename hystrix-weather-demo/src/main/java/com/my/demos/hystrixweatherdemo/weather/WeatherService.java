@@ -37,7 +37,7 @@ public class WeatherService {
                 .build();
     }
 
-    public WeatherInfo weatherInPzFromOpenWeatherMapApi() {
+    public WeatherInfo weatherInPzFromOpenWeatherMap() {
         String pzCityId = "Prizren";
         OpenWeatherMapResponse owmResponse = callWeatherApi(
                 openWeatherMapApiUri, pzCityId, openWeatherMapApiKey,

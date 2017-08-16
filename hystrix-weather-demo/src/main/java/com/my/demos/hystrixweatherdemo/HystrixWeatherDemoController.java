@@ -18,7 +18,7 @@ public class HystrixWeatherDemoController {
         if ("accuWeather".equals(source)) {
             return weatherService.weatherInPzFromAccuWeather();
         } else if ("openWeatherMap".equals(source)) {
-            return weatherService.weatherInPzFromOpenWeatherMapApi();
+            return weatherService.weatherInPzFromOpenWeatherMap();
         }
         throw new UnsupportedOperationException("Unsupported source");
     }
