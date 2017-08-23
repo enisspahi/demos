@@ -23,4 +23,9 @@ public class HystrixWeatherDemoController {
         throw new UnsupportedOperationException("Unsupported source");
     }
 
+    @GetMapping("/weatherInPrizrenResilient")
+    public WeatherInfo weatherInPrizrenResilient() {
+        return weatherService.weatherInPrizrenResilient();
+    }
+
 }
