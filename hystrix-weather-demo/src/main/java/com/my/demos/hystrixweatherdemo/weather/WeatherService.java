@@ -47,7 +47,13 @@ public class WeatherService {
     @Autowired
     private CachedWeatherContext cachedWeatherContext;
 
-    @HystrixCommand(fallbackMethod = "cachedAccuWeatherData")
+    @HystrixCommand(fallbackMethod = "cachedAccuWeatherData"
+//        ,commandProperties = {
+//            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+//            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+//            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "30"),
+//        }
+    )
     public WeatherInfo weatherInPrizrenResilientFromAccuWeather() {
         LOGGER.info("weatherInPrizrenResilientFromAccuWeather - AccuWeather API");
         if (cachedWeatherContext.isCacheValid()) {
