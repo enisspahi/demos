@@ -28,4 +28,9 @@ public class HystrixWeatherDemoController {
         return weatherService.weatherInPrizrenResilient();
     }
 
+    @GetMapping("/weatherInPrizrenResilientFromAccuWeather")
+    public WeatherInfo awWeatherInPrizrenResilient() {
+        return weatherService.weatherInPrizrenResilientFromAccuWeather();
+    }
+
 }

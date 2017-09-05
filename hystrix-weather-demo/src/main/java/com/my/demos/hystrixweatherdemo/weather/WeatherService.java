@@ -5,6 +5,7 @@ import com.my.demos.hystrixweatherdemo.weather.owm.OpenWeatherMapResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -41,6 +42,29 @@ public class WeatherService {
     private WeatherInfo noDataFallback() {
         LOGGER.info("noDataFallback - NO DATA Response");
         return WeatherInfo.builder().source("NO DATA").build();
+    }
+
+    @Autowired
+    private CachedWeatherContext cachedWeatherContext;
+
+    @HystrixCommand(fallbackMethod = "cachedAccuWeatherData")
+    public WeatherInfo weatherInPrizrenResilientFromAccuWeather() {
+        LOGGER.info("weatherInPrizrenResilientFromAccuWeather - AccuWeather API");
+        if (cachedWeatherContext.isCacheValid()) {
+            throw new RuntimeException();
+        }
+        WeatherInfo weatherInfo = weatherInPzFromAccuWeather();
+        cachedWeatherContext.storeWeatherInfo(weatherInfo);
+        return weatherInfo;
+    }
+
+    @HystrixCommand(fallbackMethod = "noDataFallback")
+    private WeatherInfo cachedAccuWeatherData() {
+        LOGGER.info("cachedAccuWeatherData - Cached AccuWeather Response");
+        if (!cachedWeatherContext.isCacheValid()) {
+            throw new RuntimeException();
+        }
+        return cachedWeatherContext.getCachedWeatherInfo();
     }
 
     public WeatherInfo weatherInPzFromAccuWeather() {
